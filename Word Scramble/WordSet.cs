@@ -8,7 +8,7 @@ namespace Word_Scramble
 {
     class WordSet
     {
-       // This contains a WordSet (list of Words) and the name of that WordSet.
+        // This contains a WordSet (list of Words) and the name of that WordSet.
 
         public string strListName { get; set; }
         public List<Word> lstWordList { get; set; } = new List<Word>();
@@ -34,5 +34,19 @@ namespace Word_Scramble
             strListName = Name;
             lstWordList = WordList;
         }
+
+        // Methods
+
+        public void AddWords(ListItem<List<Word>> listItem)
+        {
+            lstWordList.AddRange(listItem.Value);
+        }
+
+        public void AddWords(string listname, ListItem<List<Word>> listItem)
+        {
+            strListName = listname;
+            
+        }
+
     }
 }

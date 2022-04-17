@@ -12,6 +12,9 @@ namespace Word_Scramble
 {
     public partial class frmMainMenu : Form
     {
+        WordSet wsSelected = new WordSet();
+        WordSet wlSelectedList = new WordSet();
+
         public frmMainMenu()
         {
             InitializeComponent();
@@ -34,8 +37,12 @@ namespace Word_Scramble
         {
             try
             {
-                Form fListEdit = new ListEditor();
+                ListEditor fListEdit = new ListEditor();
+                // Call the method in ListEdit to get the SelectedList from MainMenu
+               // fListEdit.SetSelected(wlSelectedList);
                 fListEdit.ShowDialog();
+                // Get the updated Selected LIst from ListEdit
+               // wlSelectedList = fListEdit.SelectedLists;
             }
             catch (Exception es)
             {

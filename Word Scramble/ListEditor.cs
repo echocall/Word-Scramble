@@ -16,15 +16,17 @@ namespace Word_Scramble
         /* This form will handle adding, selecting, deleting, and editing lists.
          * It will take lists selected to go into rotation and merge them into one liss which gets sent back to ScrambleSolve.
          */
-
         // Default lists!
         List<Word> lstDefault = new List<Word>();
         List<Word> lstFarm = new List<Word>();
 
+        // These carry the selected Prompts to other Forms.
+        WordSet wsAvailable = new WordSet();
+        WordSet wsSelected = new WordSet();
+
         public ListEditor()
         {
             InitializeComponent();
-
             // DefaultList stuff
             Word Moon = new Word("Moon", "Orbits the Earth");
             Word Soon = new Word("Soon", "In or after a short time.", "If its followed by (TM) you know its not happening anytime ____.");
@@ -66,6 +68,8 @@ namespace Word_Scramble
             lstFarm.Add(Chicken);
             lstFarm.Add(Sheep);
             lstFarm.Add(Horse);
+
+
         }
 
         private void frmListSelector_Load(object sender, EventArgs e)
@@ -143,7 +147,6 @@ namespace Word_Scramble
                     }
                 }
 
-
                 // Tidy up the list name
                 string[] SplitTitle = strListName.Split('.');
                 strTidyListName = SplitTitle[0];
@@ -181,13 +184,12 @@ namespace Word_Scramble
                             clbSelectedLists.Items.Add(currentPromptList);
                             clbSelectedLists.EndUpdate();
 
-                            // Add PromptList to Selected WordList
-                            Globals.wlSelected.lstWordList.Add(currentPromptList.Value);
+                            // Add the Words from PromptList to SelectedList
+                            
                         }
                     }
 
                     // Removes checked items after transfering.
-                    // So much simpler than my plan of using a list.
                     while (clbAvailableLists.CheckedItems.Count > 0)
                     {
                         clbAvailableLists.Items.RemoveAt(clbAvailableLists.CheckedIndices[0]);
@@ -228,7 +230,7 @@ namespace Word_Scramble
                             clbAvailableLists.EndUpdate();
 
                             // Remove PromptList to Selected WordList
-                            Globals.wlSelected.lstWordList.Remove(currentPromptList.Value);
+                           // wsSelected.lstWordList.Remove(currentPromptList.Value);
                         }
                     }
                     // Removes checked items after transfering.
@@ -280,6 +282,10 @@ namespace Word_Scramble
             {
                 clbSelectedLists.SetItemChecked(i, false);
             }
+        }
+        public void SetSelected()
+        {
+
         }
     }
 }
