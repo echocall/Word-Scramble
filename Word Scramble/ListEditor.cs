@@ -69,18 +69,38 @@ namespace Word_Scramble
             lstFarm.Add(Sheep);
             lstFarm.Add(Horse);
 
-
+            wsAvailable.AddWords("Default", lstDefault);
+            wsAvailable.AddWords("Farm", lstFarm);
         }
 
         private void frmListSelector_Load(object sender, EventArgs e)
         {
-            // Load the box.
-            clbAvailableLists.Items.Add(new ListItem<List<Word>>("Default", lstDefault), true);
-            clbAvailableLists.Items.Add(new ListItem<List<Word>>("Farm", lstFarm), false);
+            int intAvailableLength = wsAvailable.Count();
+            int intAvailableIndex = 0;
+            int intSelectedLength = wsSelected.Count();
+            int intSelectedIndex = 0;
+
+
+            // add to clbAvailableLists
+            while(intAvailableIndex < intAvailableLength)
+            {
+                clbAvailableLists.Items.Add(wsAvailable.liWordSet[intAvailableIndex], false);
+                intAvailableIndex++;
+            }
+
+            // add to clbSelectedLists
+            while(intSelectedIndex < intSelectedLength)
+            {
+                clbSelectedLists.Items.Add(wsSelected.liWordSet[intAvailableIndex], false);
+                intSelectedIndex++;
+            }
+
             clbAvailableLists.SelectedIndex = -1;
+            clbSelectedLists.SelectedIndex = -1;
+
         }
 
-        private void btnAddNewList_Click(object sender, EventArgs e)
+        private void btnImportList_Click(object sender, EventArgs e)
         {
             try
             {
@@ -111,50 +131,8 @@ namespace Word_Scramble
                     }
                 }
                 // MessageBox.Show(fileContent, "File Content at path: " + filePath, MessageBoxButtons.OK);
-                // Call ImportList information here to turn the newly imported a WordList with Words.
-                ImportList(filePath, fileContent);
-
-            }
-            catch { }
-        }
-
-        private void ImportList(string filePath, string fileContent)
-        {
-            try
-            {
-                string strListName = string.Empty;
-                List<Word> NewWordList = new List<Word>();
-                string strTidyListName = string.Empty;
-
-                // Get name of list from FileName
-                strListName = Path.GetFileName(filePath);
-
-                // Turn Contents from File into WordList with Words
-                using (StringReader reader = new StringReader(fileContent))
-                {
-                    string line;
-                    while((line = reader.ReadLine()) != null)
-                    {
-                        // pull apart the line to seperate Word from Hints.
-                        // thank you documentation and google for pointing me at said documentation.
-                        string[] SplitWord = line.Split('|');
-
-                        // This works for a word with a Single hint, need to refine later.
-                        Word NewWord = new Word(SplitWord[0], SplitWord[1]);
-
-                        // Add the new word to the NewList
-                        NewWordList.Add(NewWord);
-                    }
-                }
-
-                // Tidy up the list name
-                string[] SplitTitle = strListName.Split('.');
-                strTidyListName = SplitTitle[0];
-
-                // add new wordlist to the checked list box of available lists
-                clbAvailableLists.BeginUpdate();
-                clbAvailableLists.Items.Add(new ListItem<List<Word>>(strTidyListName, NewWordList), false);
-                clbAvailableLists.EndUpdate();
+                // Call ImportList here to turn the newly imported a WordList with Words.
+                ImportedListHandler(filePath, fileContent);
 
             }
             catch { }
@@ -168,10 +146,6 @@ namespace Word_Scramble
                 // PromptList exists as a ListItem
                 if (clbAvailableLists.CheckedItems.Count != 0)
                 {
-                    // Get the checked items as a List Item
-                    // loop through to transfer all the checked Lists.
-
-                    // index for stepping through initial list.
                     int i;
                     // step through the Checked List Box checking for checked items.
                     for (i = 0; i <= (clbAvailableLists.Items.Count-1); i++)
@@ -180,12 +154,8 @@ namespace Word_Scramble
                         if(clbAvailableLists.GetItemChecked(i))
                         {
                             ListItem<List<Word>> currentPromptList = clbAvailableLists.Items[i] as ListItem<List<Word>>;
-                            clbSelectedLists.BeginUpdate();
-                            clbSelectedLists.Items.Add(currentPromptList);
-                            clbSelectedLists.EndUpdate();
-
-                            // Add the Words from PromptList to SelectedList
-                            
+                            AddToSelected(currentPromptList);
+                            wsAvailable.RemoveList(currentPromptList);
                         }
                     }
 
@@ -213,10 +183,7 @@ namespace Word_Scramble
                 // PromptList exists as a ListItem
                 if (clbSelectedLists.CheckedItems.Count != 0)
                 {
-                    // Get the checked items as a List Item
-                    // loop through to transfer all the checked Lists.
                     int i;
-                    // ListItem<List<Word>> currentPromptList = clbSelectedLists.SelectedItem as ListItem<List<Word>>;
                     // step through the Checked List Box checking for checked items.
                     for (i = 0; i <= (clbSelectedLists.Items.Count - 1); i++)
                     {
@@ -224,13 +191,8 @@ namespace Word_Scramble
                         if (clbSelectedLists.GetItemChecked(i))
                         {
                             ListItem<List<Word>> currentPromptList = clbSelectedLists.Items[i] as ListItem<List<Word>>;
-                            // Add WordList to list of available wordlists.
-                            clbAvailableLists.BeginUpdate();
-                            clbAvailableLists.Items.Add(currentPromptList);
-                            clbAvailableLists.EndUpdate();
-
-                            // Remove PromptList to Selected WordList
-                           // wsSelected.lstWordList.Remove(currentPromptList.Value);
+                            AddToAvailable(currentPromptList);
+                            wsSelected.RemoveList(currentPromptList);
                         }
                     }
                     // Removes checked items after transfering.
@@ -283,6 +245,90 @@ namespace Word_Scramble
                 clbSelectedLists.SetItemChecked(i, false);
             }
         }
+
+        // For handling the imported data.
+        private void ImportedListHandler(string filePath, string fileContent)
+        {
+            try
+            {
+                string strListName = string.Empty;
+                List<Word> NewWordList = new List<Word>();
+                string strTidyListName = string.Empty;
+                int intHintCount;
+
+                // Get name of list from FileName
+                strListName = Path.GetFileName(filePath);
+
+                // Turn Contents from File into WordList with Words
+                using (StringReader reader = new StringReader(fileContent))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        // pull apart the line to seperate Word from Hints.
+                        string[] SplitWord = line.Split('|');
+                        intHintCount = SplitWord.Length;
+
+                        switch (intHintCount)
+                        {
+                            case 0:
+                                // do nothing
+                                break;
+                            case 1:
+                                Word NewWord = new Word(SplitWord[0]);
+                                NewWordList.Add(NewWord);
+                                break;
+                            case 2:
+                                NewWord = new Word(SplitWord[0], SplitWord[1]);
+                                NewWordList.Add(NewWord);
+                                break;
+                            case 3:
+                                NewWord = new Word(SplitWord[0], SplitWord[1], SplitWord[2]);
+                                NewWordList.Add(NewWord);
+                                break;
+                            case 4:
+                                NewWord = new Word(SplitWord[0], SplitWord[1], SplitWord[2], SplitWord[3]);
+                                NewWordList.Add(NewWord);
+                                break;
+                        }
+                    }
+                }
+
+                // Tidy up the list name
+                string[] SplitTitle = strListName.Split('.');
+                strTidyListName = SplitTitle[0];
+
+                ListItem<List<Word>> liNewList = new ListItem<List<Word>>(strTidyListName, NewWordList);
+
+                AddToAvailable(liNewList);
+
+            }
+            catch { }
+        }
+
+        private void AddToAvailable(ListItem<List<Word>> liNewList)
+        {
+            // add to the Available WordSet
+            wsAvailable.AddList(liNewList);
+
+            // add new wordlist to clbAvailableLists
+            clbAvailableLists.BeginUpdate();
+            clbAvailableLists.Items.Add(liNewList, false);
+            clbAvailableLists.EndUpdate();
+        }
+
+        private void AddToSelected(ListItem<List<Word>> liNewList)
+        {
+            // add to the Selected WordSet
+            wsSelected.AddList(liNewList);
+
+            // Add to clbSelectedLists
+            clbSelectedLists.BeginUpdate();
+            clbSelectedLists.Items.Add(liNewList);
+            clbSelectedLists.EndUpdate();
+        }
+       
+        
         public void SetSelected()
         {
 

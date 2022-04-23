@@ -29,7 +29,7 @@ namespace Word_Scramble
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnAddNewList = new System.Windows.Forms.Button();
+            this.btnImportList = new System.Windows.Forms.Button();
             this.clbSelectedLists = new System.Windows.Forms.CheckedListBox();
             this.btnAddList = new System.Windows.Forms.Button();
             this.btnDeselectList = new System.Windows.Forms.Button();
@@ -43,17 +43,17 @@ namespace Word_Scramble
             this.clbAvailableLists = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
-            // btnAddNewList
+            // btnImportList
             // 
-            this.btnAddNewList.AccessibleDescription = "Allows the user to search their computer for a text file containing a list.";
-            this.btnAddNewList.AccessibleName = "Add List From Text";
-            this.btnAddNewList.Location = new System.Drawing.Point(12, 273);
-            this.btnAddNewList.Name = "btnAddNewList";
-            this.btnAddNewList.Size = new System.Drawing.Size(63, 34);
-            this.btnAddNewList.TabIndex = 2;
-            this.btnAddNewList.Text = "Add List From Text File";
-            this.btnAddNewList.UseVisualStyleBackColor = true;
-            this.btnAddNewList.Click += new System.EventHandler(this.btnAddNewList_Click);
+            this.btnImportList.AccessibleDescription = "Allows the user to search their computer for a text file containing a list.";
+            this.btnImportList.AccessibleName = "Add List From Text";
+            this.btnImportList.Location = new System.Drawing.Point(12, 273);
+            this.btnImportList.Name = "btnImportList";
+            this.btnImportList.Size = new System.Drawing.Size(63, 34);
+            this.btnImportList.TabIndex = 2;
+            this.btnImportList.Text = "Import List";
+            this.btnImportList.UseVisualStyleBackColor = true;
+            this.btnImportList.Click += new System.EventHandler(this.btnImportList_Click);
             // 
             // clbSelectedLists
             // 
@@ -194,7 +194,7 @@ namespace Word_Scramble
             this.Controls.Add(this.btnDeselectList);
             this.Controls.Add(this.btnAddList);
             this.Controls.Add(this.clbSelectedLists);
-            this.Controls.Add(this.btnAddNewList);
+            this.Controls.Add(this.btnImportList);
             this.Controls.Add(this.clbAvailableLists);
             this.Name = "ListEditor";
             this.Text = "Select Lists to Include";
@@ -205,7 +205,7 @@ namespace Word_Scramble
         }
 
         #endregion
-        private System.Windows.Forms.Button btnAddNewList;
+        private System.Windows.Forms.Button btnImportList;
         private System.Windows.Forms.CheckedListBox clbSelectedLists;
         private System.Windows.Forms.Button btnAddList;
         private System.Windows.Forms.Button btnDeselectList;

@@ -8,45 +8,96 @@ namespace Word_Scramble
 {
     class WordSet
     {
-        // This contains a WordSet (list of Words) and the name of that WordSet.
+        // This class contains a List of ListItems to act as containers for the list of Available Lists and the list of Selected Lists.
+        // This is the class I struggled with defining the most.
 
-        public string strListName { get; set; }
-        public List<Word> lstWordList { get; set; } = new List<Word>();
+        public List<ListItem<List<Word>>> liWordSet { get; set; } = new List<ListItem<List<Word>>>();
 
         // Constructors
         public WordSet()
         {
-            strListName = " ";
-        }
-
-        public WordSet(string Name)
-        {
-            strListName = Name;
-        }
-
-        public WordSet(List<Word> WordList)
-        {
-            lstWordList = WordList;
+            
         }
 
         public WordSet(string Name, List<Word> WordList)
         {
-            strListName = Name;
-            lstWordList = WordList;
+            ListItem<List<Word>> liNewList = new ListItem<List<Word>>(Name, WordList);
         }
 
         // Methods
-
-        public void AddWords(ListItem<List<Word>> listItem)
+        public void AddList(ListItem<List<Word>> listItem)
         {
-            lstWordList.AddRange(listItem.Value);
+            liWordSet.Add(listItem);
         }
 
-        public void AddWords(string listname, ListItem<List<Word>> listItem)
+        public void AddWords(string listname, List<Word> listWords)
         {
-            strListName = listname;
-            
+            ListItem<List<Word>> NewList = new ListItem<List<Word>>(listname, listWords);
+            liWordSet.Add(NewList);
         }
+
+        public void RemoveList(string strListNameToRemove)
+        {
+            int intIndexForRemoval = -1;
+            int intIndex = 0;
+            bool blnExists = new bool();
+
+            blnExists = Exists(strListNameToRemove);
+
+            if (blnExists == true)
+            {
+                for (intIndex = 0; intIndex != intIndexForRemoval; intIndex++)
+                {
+                    if (liWordSet[intIndex].DisplayText == strListNameToRemove)
+                    {
+                        intIndexForRemoval = intIndex;
+                        break;
+                    }
+                }
+
+                liWordSet.RemoveAt(intIndexForRemoval);
+            }
+            else
+            {
+                // do nothing.
+            }
+
+        }
+
+        public void RemoveList(ListItem<List<Word>> liListToRemove)
+        {
+            string strListName = liListToRemove.DisplayText;
+
+            RemoveList(strListName);
+        }
+
+        public bool Exists(string strStringName)
+        {
+            bool blnExists = new bool();
+            int intIndex = 0;
+            int intLength = liWordSet.Count;
+
+            for (intIndex = 0; intIndex < intLength ; intIndex++)
+            {
+                if (liWordSet[intIndex].DisplayText == strStringName)
+                {
+                    blnExists = true;
+                }
+                else
+                {
+                    blnExists = false;
+                }
+            }
+            return blnExists;
+        }
+
+        public int Count()
+        {
+            int intCount = 0;
+            intCount = liWordSet.Count();
+            return intCount;
+        }
+
 
     }
 }
