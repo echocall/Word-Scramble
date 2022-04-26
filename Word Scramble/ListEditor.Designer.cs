@@ -164,6 +164,7 @@ namespace Word_Scramble
             this.btnReturnToMain.TabIndex = 13;
             this.btnReturnToMain.Text = "Return to Main Menu";
             this.btnReturnToMain.UseVisualStyleBackColor = true;
+            this.btnReturnToMain.Click += new System.EventHandler(this.btnReturnToMain_Click);
             // 
             // clbAvailableLists
             // 

@@ -12,9 +12,8 @@ namespace Word_Scramble
 {
     public partial class ScrambleSolve : Form
     {
-        // List made up of selected Lists
-        // what was I doing here? Change later
-        List<Word> lstSelectedLists = new List<Word>();
+        // The WordSet of selected words.
+        WordSet wsSelected = new WordSet();
 
         Random random = new Random();
         String strOriginalWord = "";
@@ -25,6 +24,26 @@ namespace Word_Scramble
         public ScrambleSolve()
         {
             InitializeComponent();
+            MessageBox.Show("No word lists have been selected. Please go to List Editor to select word lists to use.", "Error", MessageBoxButtons.OK);
+            
+            // disable all buttons except for btnMainMenuReturn.
+            foreach(Control c in this.Controls)
+            {
+                if(c is Button)
+                {
+                    if (c.Name != "btnMainMenuRetturn")
+                    {
+                        c.Enabled = false;
+                    }
+                }
+            }
+
+        }
+
+        public ScrambleSolve(WordSet wsSelectedTransfer)
+        {
+            InitializeComponent();
+            wsSelected = wsSelectedTransfer;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -165,17 +184,10 @@ namespace Word_Scramble
             }
         }
 
-        private void btnListEditor_Click(object sender, EventArgs e)
+
+        private void btnMainMenuReturn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Form fListEdit = new ListEditor();
-                fListEdit.ShowDialog();
-            }
-            catch (Exception es)
-            {
-                MessageBox.Show(es.Message);
-            }
+            DialogResult = DialogResult.OK;
         }
     }
 }

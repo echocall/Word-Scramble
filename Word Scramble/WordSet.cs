@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Word_Scramble
 {
-    class WordSet
+    public class WordSet
     {
         // This class contains a List of ListItems to act as containers for the list of Available Lists and the list of Selected Lists.
         // This is the class I struggled with defining the most.
@@ -82,6 +82,7 @@ namespace Word_Scramble
                 if (liWordSet[intIndex].DisplayText == strStringName)
                 {
                     blnExists = true;
+                    break;
                 }
                 else
                 {

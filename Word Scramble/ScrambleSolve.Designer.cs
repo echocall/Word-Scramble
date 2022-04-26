@@ -39,10 +39,10 @@ namespace Word_Scramble
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.btnGetHint = new System.Windows.Forms.Button();
-            this.btnListEditor = new System.Windows.Forms.Button();
             this.txtHint1 = new System.Windows.Forms.TextBox();
             this.txtHint2 = new System.Windows.Forms.TextBox();
             this.txtHint3 = new System.Windows.Forms.TextBox();
+            this.btnMainMenuReturn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCheck
@@ -146,16 +146,6 @@ namespace Word_Scramble
             this.btnGetHint.UseVisualStyleBackColor = true;
             this.btnGetHint.Click += new System.EventHandler(this.btnGetHint_Click);
             // 
-            // btnListEditor
-            // 
-            this.btnListEditor.Location = new System.Drawing.Point(14, 187);
-            this.btnListEditor.Name = "btnListEditor";
-            this.btnListEditor.Size = new System.Drawing.Size(73, 38);
-            this.btnListEditor.TabIndex = 13;
-            this.btnListEditor.Text = "List Editor";
-            this.btnListEditor.UseVisualStyleBackColor = true;
-            this.btnListEditor.Click += new System.EventHandler(this.btnListEditor_Click);
-            // 
             // txtHint1
             // 
             this.txtHint1.AccessibleName = "Hint 1 Description box";
@@ -178,7 +168,17 @@ namespace Word_Scramble
             this.txtHint3.Size = new System.Drawing.Size(177, 20);
             this.txtHint3.TabIndex = 16;
             // 
-            // frmScrambleSolve
+            // btnMainMenuReturn
+            // 
+            this.btnMainMenuReturn.Location = new System.Drawing.Point(93, 187);
+            this.btnMainMenuReturn.Name = "btnMainMenuReturn";
+            this.btnMainMenuReturn.Size = new System.Drawing.Size(73, 38);
+            this.btnMainMenuReturn.TabIndex = 17;
+            this.btnMainMenuReturn.Text = "Return to Main Menu";
+            this.btnMainMenuReturn.UseVisualStyleBackColor = true;
+            this.btnMainMenuReturn.Click += new System.EventHandler(this.btnMainMenuReturn_Click);
+            // 
+            // ScrambleSolve
             // 
             this.AccessibleDescription = "The screen for solving the scrambled word, viewing the hints, and checking the an" +
     "swer.";
@@ -186,10 +186,10 @@ namespace Word_Scramble
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(253, 267);
+            this.Controls.Add(this.btnMainMenuReturn);
             this.Controls.Add(this.txtHint3);
             this.Controls.Add(this.txtHint2);
             this.Controls.Add(this.txtHint1);
-            this.Controls.Add(this.btnListEditor);
             this.Controls.Add(this.btnGetHint);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -200,7 +200,7 @@ namespace Word_Scramble
             this.Controls.Add(this.lblAnswer);
             this.Controls.Add(this.txtAnswer);
             this.Controls.Add(this.btnCheck);
-            this.Name = "frmScrambleSolve";
+            this.Name = "ScrambleSolve";
             this.Text = "Scramble Solve";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
@@ -220,10 +220,10 @@ namespace Word_Scramble
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnGetHint;
-        private System.Windows.Forms.Button btnListEditor;
         private System.Windows.Forms.TextBox txtHint1;
         private System.Windows.Forms.TextBox txtHint2;
         private System.Windows.Forms.TextBox txtHint3;
+        private System.Windows.Forms.Button btnMainMenuReturn;
     }
 }
 
