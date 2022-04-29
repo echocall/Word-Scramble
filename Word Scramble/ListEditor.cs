@@ -315,6 +315,12 @@ namespace Word_Scramble
         {
             return this.wsSelected;
         }
-      
+
+        private void btnCreateList_Click(object sender, EventArgs e)
+        {
+            ListCreator fListCreator = new ListCreator(wsAvailable);
+            fListCreator.ShowDialog();
+            wsAvailable = fListCreator.GetAvailable();
+        }
     }
 }

@@ -41,15 +41,16 @@ namespace Word_Scramble
             this.btnCheckAllSelected = new System.Windows.Forms.Button();
             this.btnReturnToMain = new System.Windows.Forms.Button();
             this.clbAvailableLists = new System.Windows.Forms.CheckedListBox();
+            this.btnCreateList = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnImportList
             // 
             this.btnImportList.AccessibleDescription = "Allows the user to search their computer for a text file containing a list.";
             this.btnImportList.AccessibleName = "Add List From Text";
-            this.btnImportList.Location = new System.Drawing.Point(12, 273);
+            this.btnImportList.Location = new System.Drawing.Point(14, 273);
             this.btnImportList.Name = "btnImportList";
-            this.btnImportList.Size = new System.Drawing.Size(63, 34);
+            this.btnImportList.Size = new System.Drawing.Size(83, 34);
             this.btnImportList.TabIndex = 2;
             this.btnImportList.Text = "Import List";
             this.btnImportList.UseVisualStyleBackColor = true;
@@ -73,7 +74,7 @@ namespace Word_Scramble
             this.btnAddList.Name = "btnAddList";
             this.btnAddList.Size = new System.Drawing.Size(89, 25);
             this.btnAddList.TabIndex = 4;
-            this.btnAddList.Text = "Add LIst";
+            this.btnAddList.Text = "Add";
             this.btnAddList.UseVisualStyleBackColor = true;
             this.btnAddList.Click += new System.EventHandler(this.btnAddList_Click);
             // 
@@ -85,7 +86,7 @@ namespace Word_Scramble
             this.btnDeselectList.Name = "btnDeselectList";
             this.btnDeselectList.Size = new System.Drawing.Size(89, 25);
             this.btnDeselectList.TabIndex = 5;
-            this.btnDeselectList.Text = "Deselect List";
+            this.btnDeselectList.Text = "Remove";
             this.btnDeselectList.UseVisualStyleBackColor = true;
             this.btnDeselectList.Click += new System.EventHandler(this.btnRemoveList_Click);
             // 
@@ -112,7 +113,7 @@ namespace Word_Scramble
             // 
             this.btnCheckAllAvailable.AccessibleDescription = "Allows user to check all checkboxes in Available Lists.";
             this.btnCheckAllAvailable.AccessibleName = "Check All Available";
-            this.btnCheckAllAvailable.Location = new System.Drawing.Point(12, 221);
+            this.btnCheckAllAvailable.Location = new System.Drawing.Point(14, 221);
             this.btnCheckAllAvailable.Name = "btnCheckAllAvailable";
             this.btnCheckAllAvailable.Size = new System.Drawing.Size(83, 34);
             this.btnCheckAllAvailable.TabIndex = 9;
@@ -124,7 +125,7 @@ namespace Word_Scramble
             // 
             this.button1.AccessibleDescription = "Allows user to uncheck all checkboxes in Available Lists.";
             this.button1.AccessibleName = "Uncheck All Available";
-            this.button1.Location = new System.Drawing.Point(122, 221);
+            this.button1.Location = new System.Drawing.Point(113, 221);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(83, 34);
             this.button1.TabIndex = 10;
@@ -136,7 +137,7 @@ namespace Word_Scramble
             // 
             this.btnUncheckAllSelected.AccessibleDescription = "Allows user to uncheck all checkboxes in Selected Lists.";
             this.btnUncheckAllSelected.AccessibleName = "Uncheck All Selected";
-            this.btnUncheckAllSelected.Location = new System.Drawing.Point(416, 221);
+            this.btnUncheckAllSelected.Location = new System.Drawing.Point(405, 221);
             this.btnUncheckAllSelected.Name = "btnUncheckAllSelected";
             this.btnUncheckAllSelected.Size = new System.Drawing.Size(83, 34);
             this.btnUncheckAllSelected.TabIndex = 12;
@@ -177,6 +178,16 @@ namespace Word_Scramble
             this.clbAvailableLists.Size = new System.Drawing.Size(193, 184);
             this.clbAvailableLists.TabIndex = 0;
             // 
+            // btnCreateList
+            // 
+            this.btnCreateList.Location = new System.Drawing.Point(113, 273);
+            this.btnCreateList.Name = "btnCreateList";
+            this.btnCreateList.Size = new System.Drawing.Size(83, 34);
+            this.btnCreateList.TabIndex = 14;
+            this.btnCreateList.Text = "Create New List";
+            this.btnCreateList.UseVisualStyleBackColor = true;
+            this.btnCreateList.Click += new System.EventHandler(this.btnCreateList_Click);
+            // 
             // ListEditor
             // 
             this.AccessibleDescription = "Allows user to select which lists they want to have words show up in the scramble" +
@@ -185,6 +196,7 @@ namespace Word_Scramble
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 319);
+            this.Controls.Add(this.btnCreateList);
             this.Controls.Add(this.btnReturnToMain);
             this.Controls.Add(this.btnUncheckAllSelected);
             this.Controls.Add(this.btnCheckAllSelected);
@@ -218,5 +230,6 @@ namespace Word_Scramble
         private System.Windows.Forms.Button btnCheckAllSelected;
         private System.Windows.Forms.Button btnReturnToMain;
         private System.Windows.Forms.CheckedListBox clbAvailableLists;
+        private System.Windows.Forms.Button btnCreateList;
     }
 }

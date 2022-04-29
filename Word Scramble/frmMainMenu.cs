@@ -108,5 +108,19 @@ namespace Word_Scramble
                 MessageBox.Show(es.Message);
             }
         }
+
+        private void btnListCreator_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ListCreator fListCreator = new ListCreator(wsAvailable);
+                fListCreator.ShowDialog();
+                wsAvailable = fListCreator.GetAvailable();
+            }
+            catch (Exception es)
+            {
+
+            }
+        }
     }
 }
