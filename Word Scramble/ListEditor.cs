@@ -47,9 +47,9 @@ namespace Word_Scramble
 
         private void frmListSelector_Load(object sender, EventArgs e)
         {
-            int intAvailableLength = wsAvailable.Count();
+            int intAvailableLength = wsAvailable.ListCount();
             int intAvailableIndex = 0;
-            int intSelectedLength = wsSelected.Count();
+            int intSelectedLength = wsSelected.ListCount();
             int intSelectedIndex = 0;
 
 
@@ -82,7 +82,7 @@ namespace Word_Scramble
                 
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-                    // this is clearly for Windows file directory, would probably need to do a check for what OS system then a case to open the corresponding file directory for user's os.
+                    // this is clearly for Windows file directory, would probably need to do a check for what OS system then a case to open the corresponding file directory for user's os if we.
                     openFileDialog.InitialDirectory = "c:\\";
                     // creating default filter for which files appear.
                     openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";

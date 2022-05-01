@@ -15,7 +15,7 @@ namespace Word_Scramble
 
         public ListItem()
         {
-
+            DisplayText = "";
         }
 
         public ListItem(string displaytext, ItemType value)
@@ -23,7 +23,6 @@ namespace Word_Scramble
             DisplayText = displaytext;
             Value = value;
         }
-
 
         public override string ToString()
         {

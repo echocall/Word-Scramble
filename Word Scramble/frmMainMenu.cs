@@ -82,7 +82,7 @@ namespace Word_Scramble
         {
             try
             {
-                Form frmScrambleSolve = new ScrambleSolve();
+                Form frmScrambleSolve = new ScrambleSolve(wsSelected);
                 frmScrambleSolve.ShowDialog();
             }
             catch (Exception es)
@@ -97,7 +97,6 @@ namespace Word_Scramble
             {
                 ListEditor fListEdit = new ListEditor(wsAvailable, wsSelected);
                 // Call the method in ListEdit to get the SelectedList from MainMenu
-                // fListEdit.SetSelected(wlSelectedList);
                 fListEdit.ShowDialog();
                 // Get the updated WordSets from ListEdit
                 wsAvailable = fListEdit.GetAvailable();

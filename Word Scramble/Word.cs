@@ -15,18 +15,18 @@ namespace Word_Scramble
 
         // hints are being turned into a list of strings for flexibility.
         public List<string> lstHints { get; set; } = new List<string>();
-        
+
         // Constructors
         public Word()
         {
             strWord = " ";
         }
-       
+
         public Word(string original)
         {
             strWord = original;
         }
-        
+
         public Word(string original, string hint1)
         {
             strWord = original;
@@ -48,5 +48,30 @@ namespace Word_Scramble
             lstHints.Add(hint3);
         }
 
+        public int Length()
+        {
+            return strWord.Length;
+        }
+
+        public int HintCount()
+        {
+            int intHintCount = 0;
+            if(lstHints.Count > 0)
+            {
+                intHintCount = lstHints.Count;
+            }
+            return intHintCount;
+        }
+
+        public bool HintsExist()
+        {
+            bool blnHintsExist = false;
+            if(lstHints.Count > 0)
+            {
+                blnHintsExist = true;
+            }
+
+            return blnHintsExist;
+        }
     }
 }

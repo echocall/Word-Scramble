@@ -16,7 +16,7 @@ namespace Word_Scramble
         // Constructors
         public WordSet()
         {
-            
+
         }
 
         public WordSet(string Name, List<Word> WordList)
@@ -77,7 +77,7 @@ namespace Word_Scramble
             int intIndex = 0;
             int intLength = liWordSet.Count;
 
-            for (intIndex = 0; intIndex < intLength ; intIndex++)
+            for (intIndex = 0; intIndex < intLength; intIndex++)
             {
                 if (liWordSet[intIndex].DisplayText == strStringName)
                 {
@@ -92,13 +92,22 @@ namespace Word_Scramble
             return blnExists;
         }
 
-        public int Count()
+        public int ListCount()
         {
             int intCount = 0;
             intCount = liWordSet.Count();
             return intCount;
         }
 
+        public int WordCount()
+        {
+            int intTotal = 0;
+            foreach (ListItem<List<Word>> wordlist in liWordSet)
+            {
+                intTotal = wordlist.Value.Count;
+            }
+            return intTotal;
+        }
 
     }
 }

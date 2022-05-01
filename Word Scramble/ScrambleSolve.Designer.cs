@@ -43,13 +43,17 @@ namespace Word_Scramble
             this.txtHint2 = new System.Windows.Forms.TextBox();
             this.txtHint3 = new System.Windows.Forms.TextBox();
             this.btnMainMenuReturn = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblHintCount = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblRemainingHints = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCheck
             // 
             this.btnCheck.AccessibleDescription = "Checks the user\'s imputted answer to see if it is correct.";
             this.btnCheck.AccessibleName = "Check Answer";
-            this.btnCheck.Location = new System.Drawing.Point(172, 143);
+            this.btnCheck.Location = new System.Drawing.Point(172, 175);
             this.btnCheck.Name = "btnCheck";
             this.btnCheck.Size = new System.Drawing.Size(73, 38);
             this.btnCheck.TabIndex = 0;
@@ -59,7 +63,7 @@ namespace Word_Scramble
             // 
             // txtAnswer
             // 
-            this.txtAnswer.Location = new System.Drawing.Point(59, 117);
+            this.txtAnswer.Location = new System.Drawing.Point(59, 149);
             this.txtAnswer.Name = "txtAnswer";
             this.txtAnswer.Size = new System.Drawing.Size(181, 20);
             this.txtAnswer.TabIndex = 1;
@@ -67,7 +71,7 @@ namespace Word_Scramble
             // lblAnswer
             // 
             this.lblAnswer.AutoSize = true;
-            this.lblAnswer.Location = new System.Drawing.Point(11, 120);
+            this.lblAnswer.Location = new System.Drawing.Point(11, 152);
             this.lblAnswer.Name = "lblAnswer";
             this.lblAnswer.Size = new System.Drawing.Size(45, 13);
             this.lblAnswer.TabIndex = 2;
@@ -99,7 +103,7 @@ namespace Word_Scramble
             // 
             this.btnStartScramble.AccessibleDescription = "Gives the user a new word to unscramble.";
             this.btnStartScramble.AccessibleName = "New Scramble";
-            this.btnStartScramble.Location = new System.Drawing.Point(14, 143);
+            this.btnStartScramble.Location = new System.Drawing.Point(14, 175);
             this.btnStartScramble.Name = "btnStartScramble";
             this.btnStartScramble.Size = new System.Drawing.Size(73, 38);
             this.btnStartScramble.TabIndex = 5;
@@ -110,7 +114,7 @@ namespace Word_Scramble
             // lable
             // 
             this.lable.AutoSize = true;
-            this.lable.Location = new System.Drawing.Point(19, 31);
+            this.lable.Location = new System.Drawing.Point(19, 63);
             this.lable.Name = "lable";
             this.lable.Size = new System.Drawing.Size(38, 13);
             this.lable.TabIndex = 6;
@@ -119,7 +123,7 @@ namespace Word_Scramble
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 55);
+            this.label3.Location = new System.Drawing.Point(19, 87);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 8;
@@ -128,7 +132,7 @@ namespace Word_Scramble
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 85);
+            this.label4.Location = new System.Drawing.Point(19, 117);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 10;
@@ -138,7 +142,7 @@ namespace Word_Scramble
             // 
             this.btnGetHint.AccessibleDescription = "Reveals one of the hints for a scrambled word.";
             this.btnGetHint.AccessibleName = "Get Hint";
-            this.btnGetHint.Location = new System.Drawing.Point(93, 143);
+            this.btnGetHint.Location = new System.Drawing.Point(93, 175);
             this.btnGetHint.Name = "btnGetHint";
             this.btnGetHint.Size = new System.Drawing.Size(73, 38);
             this.btnGetHint.TabIndex = 12;
@@ -149,34 +153,71 @@ namespace Word_Scramble
             // txtHint1
             // 
             this.txtHint1.AccessibleName = "Hint 1 Description box";
-            this.txtHint1.Location = new System.Drawing.Point(63, 25);
+            this.txtHint1.Enabled = false;
+            this.txtHint1.Location = new System.Drawing.Point(63, 57);
             this.txtHint1.Name = "txtHint1";
             this.txtHint1.Size = new System.Drawing.Size(177, 20);
             this.txtHint1.TabIndex = 14;
             // 
             // txtHint2
             // 
-            this.txtHint2.Location = new System.Drawing.Point(63, 55);
+            this.txtHint2.Enabled = false;
+            this.txtHint2.Location = new System.Drawing.Point(63, 87);
             this.txtHint2.Name = "txtHint2";
             this.txtHint2.Size = new System.Drawing.Size(177, 20);
             this.txtHint2.TabIndex = 15;
             // 
             // txtHint3
             // 
-            this.txtHint3.Location = new System.Drawing.Point(64, 82);
+            this.txtHint3.Enabled = false;
+            this.txtHint3.Location = new System.Drawing.Point(64, 114);
             this.txtHint3.Name = "txtHint3";
             this.txtHint3.Size = new System.Drawing.Size(177, 20);
             this.txtHint3.TabIndex = 16;
             // 
             // btnMainMenuReturn
             // 
-            this.btnMainMenuReturn.Location = new System.Drawing.Point(93, 187);
+            this.btnMainMenuReturn.Location = new System.Drawing.Point(93, 219);
             this.btnMainMenuReturn.Name = "btnMainMenuReturn";
             this.btnMainMenuReturn.Size = new System.Drawing.Size(73, 38);
             this.btnMainMenuReturn.TabIndex = 17;
             this.btnMainMenuReturn.Text = "Return to Main Menu";
             this.btnMainMenuReturn.UseVisualStyleBackColor = true;
             this.btnMainMenuReturn.Click += new System.EventHandler(this.btnMainMenuReturn_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(19, 41);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Hints for Word: ";
+            // 
+            // lblHintCount
+            // 
+            this.lblHintCount.AutoSize = true;
+            this.lblHintCount.Location = new System.Drawing.Point(103, 41);
+            this.lblHintCount.Name = "lblHintCount";
+            this.lblHintCount.Size = new System.Drawing.Size(0, 13);
+            this.lblHintCount.TabIndex = 19;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(130, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 13);
+            this.label5.TabIndex = 20;
+            this.label5.Text = "Hints Left:";
+            // 
+            // lblRemainingHints
+            // 
+            this.lblRemainingHints.AutoSize = true;
+            this.lblRemainingHints.Location = new System.Drawing.Point(192, 41);
+            this.lblRemainingHints.Name = "lblRemainingHints";
+            this.lblRemainingHints.Size = new System.Drawing.Size(0, 13);
+            this.lblRemainingHints.TabIndex = 21;
             // 
             // ScrambleSolve
             // 
@@ -186,6 +227,10 @@ namespace Word_Scramble
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(253, 267);
+            this.Controls.Add(this.lblRemainingHints);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.lblHintCount);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnMainMenuReturn);
             this.Controls.Add(this.txtHint3);
             this.Controls.Add(this.txtHint2);
@@ -224,6 +269,10 @@ namespace Word_Scramble
         private System.Windows.Forms.TextBox txtHint2;
         private System.Windows.Forms.TextBox txtHint3;
         private System.Windows.Forms.Button btnMainMenuReturn;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblHintCount;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblRemainingHints;
     }
 }
 
