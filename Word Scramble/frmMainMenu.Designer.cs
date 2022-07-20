@@ -74,6 +74,7 @@ namespace Word_Scramble
             this.Controls.Add(this.btnWordScramble);
             this.Name = "frmMainMenu";
             this.Text = "Main Menu";
+            this.Load += new System.EventHandler(this.frmMainMenu_Load);
             this.ResumeLayout(false);
 
         }

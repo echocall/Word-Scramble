@@ -115,11 +115,19 @@ namespace Word_Scramble
                 ListCreator fListCreator = new ListCreator(wsAvailable);
                 fListCreator.ShowDialog();
                 wsAvailable = fListCreator.GetAvailable();
+                // Get the updated WordSets from ListEdit
+                wsAvailable = fListCreator.GetAvailable();
+                wsSelected = fListCreator.GetSelected();
             }
             catch (Exception es)
             {
 
             }
+        }
+
+        private void frmMainMenu_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

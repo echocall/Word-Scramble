@@ -16,6 +16,8 @@ namespace Word_Scramble
         string strListName = "";
 
         WordSet wsAvailable = new WordSet();
+        WordSet wsSelected = new WordSet();
+
         List<Word> NewWordList = new List<Word>();
         ListItem<List<Word>> liNewList = new ListItem<List<Word>>();
 
@@ -39,7 +41,12 @@ namespace Word_Scramble
         public WordSet GetAvailable()
         {
             return this.wsAvailable;
+        }
 
+        // for transfering the wordset back to MainMenu.
+        public WordSet GetSelected()
+        {
+            return this.wsSelected;
         }
     }
 }
