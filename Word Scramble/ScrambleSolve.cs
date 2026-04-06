@@ -14,6 +14,7 @@ namespace Word_Scramble
     {
         // List made up of selected Lists
         // what was I doing here? Change later
+        // 2026 note: Could replace 'list of lists' with a list of dictionaries. Will need to ajust how this is called elsewhere to match.
         List<Word> lstSelectedLists = new List<Word>();
 
         Random random = new Random();
@@ -32,11 +33,12 @@ namespace Word_Scramble
 
         }
 
+        // Randomly picks a word from the word list to send it through the scrambler.
+        // TODO: Possibly add a check so if a word 'scrambles' into correct configuration it will scramble again.
         private void btnStartScramble_Click(object sender, EventArgs e)
         {
             try
             {
-                // This will randomly pick a word from the word list then send it through the scrambler.
                 String strScrambledWord = "";
                 int intWordListLength = 0;
 
@@ -80,6 +82,7 @@ namespace Word_Scramble
             }
         }
 
+        // Checks if the player's guess is correct.
         private void btnCheck_Click(object sender, EventArgs e)
         {
             try
@@ -104,14 +107,15 @@ namespace Word_Scramble
             }
         }
 
+
+        // Takes in a word, uses Random class to shuffle the word, then passes the shuffled word out.
+        // Code comes from a comment by user nan on stackoverflow with minor edit.
+        // edits include: changing a var out for a char. 
         private String Scrambler(String strOriginalWord, int intWordLength)
         {
             String strScrambledWord = " ";
             try
             {
-                // Takes in a word, uses Random class to shuffle the word, then passes the shuffled word out.
-                // Code comes from a comment by user nan on stackoverflow with minor edit.
-                // edits include: changing a var out for a char. 
                 char chrSwap = ' ';
                 char[] chrScramble;
                 int intCharacterCount = intWordLength;
@@ -153,6 +157,7 @@ namespace Word_Scramble
 
         }
 
+        // TODO: Implement showing one of the hints.
         private void btnGetHint_Click(object sender, EventArgs e)
         {
             try
@@ -165,6 +170,7 @@ namespace Word_Scramble
             }
         }
 
+        // Opens the List Editor form on button click.
         private void btnListEditor_Click(object sender, EventArgs e)
         {
             try
