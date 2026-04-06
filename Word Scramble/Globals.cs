@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Word_Scramble
 {
-    class Globals
+    public class Globals
     {
         // The world travelling suitcase.
 
         // wordlists selected for use in scrambler.
-        public static WordSet wlSelected = new WordSet();
+        // public WordSet wslSelected { get; set; }
 
         // wordlists that could be selected for use.
-        public static WordSet wlAvailable = new WordSet();
+        // public List<WordSet> WslAvailable { get; set; }
 
     }
 }

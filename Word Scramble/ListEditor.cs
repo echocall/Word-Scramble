@@ -16,64 +16,60 @@ namespace Word_Scramble
         /* This form will handle adding, selecting, deleting, and editing lists.
          * It will take lists selected to go into rotation and merge them into one lisT which gets sent back to ScrambleSolve.
          */
-
         // Default lists!
         List<Word> lstDefault = new List<Word>();
         List<Word> lstFarm = new List<Word>();
 
+        // These hold the selected Prompts for other forms.
+        WordSet wsAvailable = new WordSet();
+        WordSet wsSelected = new WordSet();
+
         public ListEditor()
         {
             InitializeComponent();
+          
+        }
 
-            // DefaultList stuff
-            Word Moon = new Word("Moon", "Orbits the Earth");
-            Word Soon = new Word("Soon", "In or after a short time.", "If its followed by (TM) you know its not happening anytime ____.");
-            Word Loom = new Word("Loom", "An apparatus for making fabric by weaving yarn or thread.", "Weaver and their ____.");
-            Word Craft = new Word("Craft", "The act of creating something.");
-            Word Mine = new Word("Mine", "Digging in the ground for resources such as coal.", "It's not yours its ____.");
-            Word Town = new Word("Town", "Larger than a village, smaller than a city.", "Just a small ____ girl Livin' in a lonely world");
-            Word Cute = new Word("Cute", "attractive in a pretty or endearing way.", "As ____ as a kitten.");
+        public ListEditor(WordSet wsAvailableTransfer)
+        {
+            InitializeComponent();
 
-            // Add prompts
-            lstDefault.Add(Moon);
-            lstDefault.Add(Soon);
-            lstDefault.Add(Loom);
-            lstDefault.Add(Craft);
-            lstDefault.Add(Mine);
-            lstDefault.Add(Town);
-            lstDefault.Add(Cute);
+            wsAvailable = wsAvailableTransfer;
+        }
 
-            // FarmList stuff
-            Word Barn = new Word("Barn", "A large building for animal housing or storage.");
-            Word Coop = new Word("Coop", "A small building for housing poultry.", "When built freestanding, often has a method of closing it to keep predators from getting in.");
-            Word Pasture = new Word("Pasture", "Outdoor pen with grass", "Land for grazing animals.");
-            Word Stall = new Word("Stall", "An individual compartment for an animal in a stable or barn.");
-            Word Hay = new Word("Hay", "Animal feed made from dried grass.", "Comes in bales.");
-            Word Corn = new Word("Corn", "Grows on a stalk, commonly depicted as yellow.", "Starred in the horror movie Children of the ____");
-            Word Cow = new Word("Cow", "Bovine that can be raised for milk or meat or both.", "Moo");
-            Word Chicken = new Word("Chicken", "Poultry raised for meat or eggs.", "Known for being Kentucky Fried.", "Cluck");
-            Word Sheep = new Word("Sheep", "Ovine raised for wool, meat, milk, or some combination of all three.", "Has lambs, needs to be sheared.", "Baa");
-            Word Horse = new Word("Horse", "Equine raised for running or working.", "Neigh");
+        public ListEditor(WordSet wsAvailableTransfer, WordSet wsSelectedTransfer)
+        {
+            InitializeComponent();
 
-            // Add prompts
-            lstFarm.Add(Barn);
-            lstFarm.Add(Coop);
-            lstFarm.Add(Pasture);
-            lstFarm.Add(Stall);
-            lstFarm.Add(Hay);
-            lstFarm.Add(Corn);
-            lstFarm.Add(Cow);
-            lstFarm.Add(Chicken);
-            lstFarm.Add(Sheep);
-            lstFarm.Add(Horse);
+            wsAvailable = wsAvailableTransfer;
+            wsSelected = wsSelectedTransfer;
         }
         // TODO: Check if we should change to auto-find other new lists in the WordList file save location and add them here too.
         private void frmListSelector_Load(object sender, EventArgs e)
         {
-            // Load the box.
-            lstbxAvailableLists.Items.Add(new ListItem<List<Word>>("Default", lstDefault), true);
-            lstbxAvailableLists.Items.Add(new ListItem<List<Word>>("Farm", lstFarm), false);
-            lstbxAvailableLists.SelectedIndex = -1;
+            int intAvailableLength = wsAvailable.ListCount();
+            int intAvailableIndex = 0;
+            int intSelectedLength = wsSelected.ListCount();
+            int intSelectedIndex = 0;
+
+
+            // add to clbAvailableLists
+            while(intAvailableIndex < intAvailableLength)
+            {
+                clbAvailableLists.Items.Add(wsAvailable.liWordSet[intAvailableIndex], false);
+                intAvailableIndex++;
+            }
+
+            // add to clbSelectedLists
+            while(intSelectedIndex < intSelectedLength)
+            {
+                clbSelectedLists.Items.Add(wsSelected.liWordSet[intAvailableIndex], false);
+                intSelectedIndex++;
+            }
+
+            clbAvailableLists.SelectedIndex = -1;
+            clbSelectedLists.SelectedIndex = -1;
+
         }
         
         // TODO: Currently AddNewList doesn't work, it should open a dialog for adding a new list.
@@ -87,7 +83,7 @@ namespace Word_Scramble
                 
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-                    // this is clearly for Windows file directory, would probably need to do a check for what OS system then a case to open the corresponding file directory for user's os.
+                    // this is clearly for Windows file directory, would probably need to do a check for what OS system then a case to open the corresponding file directory for user's os if we.
                     openFileDialog.InitialDirectory = "c:\\";
                     // creating default filter for which files appear.
                     openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -166,34 +162,25 @@ namespace Word_Scramble
             {
                 // Move a checked PromptList from Available to Selected.
                 // PromptList exists as a ListItem
-                if (lstbxAvailableLists.CheckedItems.Count != 0)
+                if (clbAvailableLists.CheckedItems.Count != 0)
                 {
-                    // Get the checked items as a List Item
-                    // loop through to transfer all the checked Lists.
-
-                    // index for stepping through initial list.
                     int i;
                     // step through the Checked List Box checking for checked items.
-                    for (i = 0; i <= (lstbxAvailableLists.Items.Count-1); i++)
+                    for (i = 0; i <= (clbAvailableLists.Items.Count-1); i++)
                     {
                         // If Item at index is Checked, transfer it over.
-                        if(lstbxAvailableLists.GetItemChecked(i))
+                        if(clbAvailableLists.GetItemChecked(i))
                         {
-                            ListItem<List<Word>> currentPromptList = lstbxAvailableLists.Items[i] as ListItem<List<Word>>;
-                            clbSelectedLists.BeginUpdate();
-                            clbSelectedLists.Items.Add(currentPromptList);
-                            clbSelectedLists.EndUpdate();
-
-                            // Add PromptList to Selected WordList
-                            Globals.wlSelected.lstWordList.Add(currentPromptList.Value);
+                            ListItem<List<Word>> currentPromptList = clbAvailableLists.Items[i] as ListItem<List<Word>>;
+                            AddToSelected(currentPromptList);
+                            wsAvailable.RemoveList(currentPromptList);
                         }
                     }
 
                     // Removes checked items after transfering.
-                    // So much simpler than my plan of using a list.
-                    while (lstbxAvailableLists.CheckedItems.Count > 0)
+                    while (clbAvailableLists.CheckedItems.Count > 0)
                     {
-                        lstbxAvailableLists.Items.RemoveAt(lstbxAvailableLists.CheckedIndices[0]);
+                        clbAvailableLists.Items.RemoveAt(clbAvailableLists.CheckedIndices[0]);
                     }
                 }
                 else
@@ -215,10 +202,7 @@ namespace Word_Scramble
                 // PromptList exists as a ListItem
                 if (clbSelectedLists.CheckedItems.Count != 0)
                 {
-                    // Get the checked items as a List Item
-                    // loop through to transfer all the checked Lists.
                     int i;
-                    // ListItem<List<Word>> currentPromptList = clbSelectedLists.SelectedItem as ListItem<List<Word>>;
                     // step through the Checked List Box checking for checked items.
                     for (i = 0; i <= (clbSelectedLists.Items.Count - 1); i++)
                     {
@@ -226,13 +210,8 @@ namespace Word_Scramble
                         if (clbSelectedLists.GetItemChecked(i))
                         {
                             ListItem<List<Word>> currentPromptList = clbSelectedLists.Items[i] as ListItem<List<Word>>;
-                            // Add WordList to list of available wordlists.
-                            lstbxAvailableLists.BeginUpdate();
-                            lstbxAvailableLists.Items.Add(currentPromptList);
-                            lstbxAvailableLists.EndUpdate();
-
-                            // Remove PromptList to Selected WordList
-                            Globals.wlSelected.lstWordList.Remove(currentPromptList.Value);
+                            AddToAvailable(currentPromptList);
+                            wsSelected.RemoveList(currentPromptList);
                         }
                     }
                     // Removes checked items after transfering.
@@ -254,9 +233,9 @@ namespace Word_Scramble
         private void btnCheckAllAvailable_Click(object sender, EventArgs e)
         {
             // check all boxes in lstbxAvailable
-            for (int i = 0; i < lstbxAvailableLists.Items.Count; i++)
+            for (int i = 0; i < clbAvailableLists.Items.Count; i++)
             {
-                lstbxAvailableLists.SetItemChecked(i, true);
+                clbAvailableLists.SetItemChecked(i, true);
             }
         }
 
@@ -265,9 +244,9 @@ namespace Word_Scramble
         private void button1_Click(object sender, EventArgs e)
         {
             // uncheck all boxes in lstbxAvailable
-            for (int i = 0; i < lstbxAvailableLists.Items.Count; i++)
+            for (int i = 0; i < clbAvailableLists.Items.Count; i++)
             {
-                lstbxAvailableLists.SetItemChecked(i, false);
+                clbAvailableLists.SetItemChecked(i, false);
             }
         }
 
@@ -289,6 +268,111 @@ namespace Word_Scramble
             {
                 clbSelectedLists.SetItemChecked(i, false);
             }
+        }
+
+        private void ImportedListHandler(string filePath, string fileContent)
+        {
+            try
+            {
+                string strListName = string.Empty;
+                List<Word> NewWordList = new List<Word>();
+                string strTidyListName = string.Empty;
+                int intHintCount;
+
+                // Get name of list from FileName
+                strListName = Path.GetFileName(filePath);
+
+                // Turn Contents from File into WordList with Words
+                using (StringReader reader = new StringReader(fileContent))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        // pull apart the line to seperate Word from Hints.
+                        string[] SplitWord = line.Split('|');
+                        intHintCount = SplitWord.Length;
+
+                        switch (intHintCount)
+                        {
+                            case 0:
+                                // do nothing
+                                break;
+                            case 1:
+                                Word NewWord = new Word(SplitWord[0]);
+                                NewWordList.Add(NewWord);
+                                break;
+                            case 2:
+                                NewWord = new Word(SplitWord[0], SplitWord[1]);
+                                NewWordList.Add(NewWord);
+                                break;
+                            case 3:
+                                NewWord = new Word(SplitWord[0], SplitWord[1], SplitWord[2]);
+                                NewWordList.Add(NewWord);
+                                break;
+                            case 4:
+                                NewWord = new Word(SplitWord[0], SplitWord[1], SplitWord[2], SplitWord[3]);
+                                NewWordList.Add(NewWord);
+                                break;
+                        }
+                    }
+                }
+
+                // Tidy up the list name
+                string[] SplitTitle = strListName.Split('.');
+                strTidyListName = SplitTitle[0];
+
+                ListItem<List<Word>> liNewList = new ListItem<List<Word>>(strTidyListName, NewWordList);
+
+                AddToAvailable(liNewList);
+
+            }
+            catch { }
+        }
+
+        private void AddToAvailable(ListItem<List<Word>> liNewList)
+        {
+            // add to the Available WordSet
+            wsAvailable.AddList(liNewList);
+
+            // add new wordlist to clbAvailableLists
+            clbAvailableLists.BeginUpdate();
+            clbAvailableLists.Items.Add(liNewList, false);
+            clbAvailableLists.EndUpdate();
+        }
+
+        private void AddToSelected(ListItem<List<Word>> liNewList)
+        {
+            // add to the Selected WordSet
+            wsSelected.AddList(liNewList);
+
+            // Add to clbSelectedLists
+            clbSelectedLists.BeginUpdate();
+            clbSelectedLists.Items.Add(liNewList);
+            clbSelectedLists.EndUpdate();
+        }
+
+        private void btnReturnToMain_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+        }
+
+        // for transfering the wordsets back to MainMenu.
+        public WordSet GetAvailable()
+        {
+            return this.wsAvailable;
+            
+        }
+
+        public WordSet GetSelected()
+        {
+            return this.wsSelected;
+        }
+
+        private void btnCreateList_Click(object sender, EventArgs e)
+        {
+            ListCreator fListCreator = new ListCreator(wsAvailable);
+            fListCreator.ShowDialog();
+            wsAvailable = fListCreator.GetAvailable();
         }
     }
 }

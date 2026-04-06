@@ -18,7 +18,13 @@ namespace Word_Scramble
         List<Word> lstSelectedLists = new List<Word>();
 
         Random random = new Random();
-        String strOriginalWord = "";
+
+        string strScrambledWord;
+        Word wordOriginal;
+
+        int intHintCount = 0;
+        int intHintsUsed = 0;
+        int intHintsRemaining = 0;
 
         // allows us to access the index in the selected list
         int intSelectedWordIndex = 0;
@@ -26,6 +32,44 @@ namespace Word_Scramble
         public ScrambleSolve()
         {
             InitializeComponent();
+            MessageBox.Show("No word lists have been selected. Please go to List Editor to select word lists to use.", "Error", MessageBoxButtons.OK);
+            
+            // disable all buttons except for btnMainMenuReturn.
+            foreach(Control c in this.Controls)
+            {
+                if(c is Button)
+                {
+                    if (c.Name != "btnMainMenuRetturn")
+                    {
+                        c.Enabled = false;
+                    }
+                }
+            }
+        }
+
+        public ScrambleSolve(WordSet wsSelectedTransfer)
+        {
+            if (wsSelectedTransfer.ListCount() > 0)
+            {
+                InitializeComponent();
+                wsSelected = wsSelectedTransfer;
+            }
+            else
+            {
+                MessageBox.Show("No word lists have been selected. Please go to List Editor to select word lists to use.", "Error", MessageBoxButtons.OK);
+
+                // disable all buttons except for btnMainMenuReturn.
+                foreach (Control c in this.Controls)
+                {
+                    if (c is Button)
+                    {
+                        if (c.Name != "btnMainMenuRetturn")
+                        {
+                            c.Enabled = false;
+                        }
+                    }
+                }
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -42,38 +86,55 @@ namespace Word_Scramble
                 String strScrambledWord = "";
                 int intWordListLength = 0;
 
+                int intListCount = 0;
+                int intRandomIndex = 0;
 
-                // Check how long the list is.
-                for (int i = 0; i < lstSelectedLists.Count; i++)
+                // clear previous information that may be there.
+                intHintCount = 0;
+                intHintsRemaining = 0;
+                intHintsUsed = 0;
+                txtHint1.Text = "";
+                txtHint2.Text = "";
+                txtHint3.Text = "";
+                lblRemainingHints.Text = "";
+                lblHintCount.Text = "";
+
+                // check how long wordset is.
+                intListCount = wsSelected.ListCount();
+                if (intListCount > 1)
                 {
-                    intWordListLength = i;
-                }
+                    // if wordset contains more than one word list, randomly select a wordlist to get word from.
+                    intRandomIndex = random.Next(0, intListCount);
+                    wordOriginal = GetWord(wsSelected.liWordSet[intRandomIndex]);
 
-                if (intWordListLength <= 0)
-                {
-                    MessageBox.Show("There are no words in the word list. Please add words to the word list before trying to scramble.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    // Pick a random word from the List
-                    intSelectedWordIndex = random.Next(-1, intWordListLength);
-
-                    strOriginalWord = lstSelectedLists[intSelectedWordIndex].strWord;
-
-                    // Check string length
-                    if (strOriginalWord.Length > 0)
+                    if (wordOriginal.Length() > 0)
                     {
-                        // Get scrambled version of word
-                        strScrambledWord = Scrambler(strOriginalWord, strOriginalWord.Length);
-
-                        // Change the label text for the scrambled word to the scrambled word.
+                        strScrambledWord = Scrambler(wordOriginal.strWord, wordOriginal.Length());
                         lblScrambledWord.Text = strScrambledWord;
-
                     }
                     else
                     {
                         MessageBox.Show("The word selected had no characters.  Word selected was at index " + intSelectedWordIndex.ToString() + " of list lstWordsToScramble", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                }
+                else if (intListCount == 1)
+                {
+                    // if wordset only contains one wordlist, use that.
+                    wordOriginal = GetWord(wsSelected.liWordSet[0]);
+
+                    if(wordOriginal.Length() > 0)
+                    {
+                        strScrambledWord = Scrambler(wordOriginal.strWord, wordOriginal.Length());
+                        lblScrambledWord.Text = strScrambledWord;
+                    }
+                    else
+                    {
+                        MessageBox.Show("The word selected had no characters.  Word selected was at index " + intSelectedWordIndex.ToString() + " of list lstWordsToScramble", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("There are no words in the word list. Please add words to the word list before trying to scramble.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception es)
@@ -87,7 +148,7 @@ namespace Word_Scramble
         {
             try
             {
-                if (txtAnswer.Text == strOriginalWord)
+                if (txtAnswer.Text == wordOriginal.strWord)
                 {
                     MessageBox.Show("Success! You unscrambled the word correctly.", "Success", MessageBoxButtons.OK);
                     lblScrambledWord.Text = "";
@@ -146,9 +207,9 @@ namespace Word_Scramble
                 }
 
                 // Return the Scrambled word as a String.
-               strScrambledWord = new string(chrScramble);
+                strScrambledWord = new string(chrScramble);
             }
-            catch (Exception es) 
+            catch (Exception es)
             {
                 MessageBox.Show(es.Message);
             }

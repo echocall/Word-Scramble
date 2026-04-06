@@ -13,6 +13,11 @@ namespace Word_Scramble
         public string DisplayText { get; set; }
         public ItemType Value { get; set; }
 
+        public ListItem()
+        {
+            DisplayText = "";
+        }
+
         public ListItem(string displaytext, ItemType value)
         {
             DisplayText = displaytext;
