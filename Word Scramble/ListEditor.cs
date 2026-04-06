@@ -14,7 +14,7 @@ namespace Word_Scramble
     public partial class ListEditor : Form
     {
         /* This form will handle adding, selecting, deleting, and editing lists.
-         * It will take lists selected to go into rotation and merge them into one liss which gets sent back to ScrambleSolve.
+         * It will take lists selected to go into rotation and merge them into one lisT which gets sent back to ScrambleSolve.
          */
         // Default lists!
         List<Word> lstDefault = new List<Word>();
@@ -44,7 +44,7 @@ namespace Word_Scramble
             wsAvailable = wsAvailableTransfer;
             wsSelected = wsSelectedTransfer;
         }
-
+        // TODO: Check if we should change to auto-find other new lists in the WordList file save location and add them here too.
         private void frmListSelector_Load(object sender, EventArgs e)
         {
             int intAvailableLength = wsAvailable.ListCount();
@@ -71,8 +71,9 @@ namespace Word_Scramble
             clbSelectedLists.SelectedIndex = -1;
 
         }
-
-        private void btnImportList_Click(object sender, EventArgs e)
+        
+        // TODO: Currently AddNewList doesn't work, it should open a dialog for adding a new list.
+        private void btnAddNewList_Click(object sender, EventArgs e)
         {
             try
             {
@@ -103,13 +104,58 @@ namespace Word_Scramble
                     }
                 }
                 // MessageBox.Show(fileContent, "File Content at path: " + filePath, MessageBoxButtons.OK);
-                // Call ImportList here to turn the newly imported a WordList with Words.
-                ImportedListHandler(filePath, fileContent);
+                // Call ImportList information here to turn the newly imported file a WordList with Words.
+                ImportList(filePath, fileContent);
 
             }
             catch { }
         }
 
+        // Gets the file path and content from the file dialog, turns the content into a WordList with Words, and adds the new list to the available lists.
+        private void ImportList(string filePath, string fileContent)
+        {
+            try
+            {
+                string strListName = string.Empty;
+                List<Word> NewWordList = new List<Word>();
+                string strTidyListName = string.Empty;
+
+                // Get name of list from FileName
+                strListName = Path.GetFileName(filePath);
+
+                // Turn Contents from File into WordList with Words
+                using (StringReader reader = new StringReader(fileContent))
+                {
+                    string line;
+                    while((line = reader.ReadLine()) != null)
+                    {
+                        // pull apart the line to seperate Word from Hints.
+                        // thank you documentation and google for pointing me at said documentation.
+                        string[] SplitWord = line.Split('|');
+
+                        // This works for a word with a Single hint, need to refine later.
+                        Word NewWord = new Word(SplitWord[0], SplitWord[1]);
+
+                        // Add the new word to the NewList
+                        NewWordList.Add(NewWord);
+                    }
+                }
+
+
+                // Tidy up the list name
+                string[] SplitTitle = strListName.Split('.');
+                strTidyListName = SplitTitle[0];
+
+                // add new wordlist to the checked list box of available lists
+                lstbxAvailableLists.BeginUpdate();
+                lstbxAvailableLists.Items.Add(new ListItem<List<Word>>(strTidyListName, NewWordList), false);
+                lstbxAvailableLists.EndUpdate();
+
+            }
+            catch { }
+        }
+
+        // Moves a checked PromptList from Available to Selected.
         private void btnAddList_Click(object sender, EventArgs e)
         {
             try
@@ -147,6 +193,7 @@ namespace Word_Scramble
 
         }
 
+        //Removed a checked PromptList from Selected to Available.
         private void btnRemoveList_Click(object sender, EventArgs e)
         {
             try
@@ -182,6 +229,7 @@ namespace Word_Scramble
             catch { }
         }
 
+        // Checks all the boxes in lstbxAvailableLists.
         private void btnCheckAllAvailable_Click(object sender, EventArgs e)
         {
             // check all boxes in lstbxAvailable
@@ -191,6 +239,8 @@ namespace Word_Scramble
             }
         }
 
+        // TODO: Rename this and its associated button on the form.
+        // Unchecks all the boxes in lstbxAvailableLists.
         private void button1_Click(object sender, EventArgs e)
         {
             // uncheck all boxes in lstbxAvailable
@@ -200,6 +250,7 @@ namespace Word_Scramble
             }
         }
 
+        // Checks all the boxes in lstbxSelectedLists.
         private void btnCheckAllSelected_Click(object sender, EventArgs e)
         {
             // check all boxes in clbSelectedLists
@@ -209,6 +260,7 @@ namespace Word_Scramble
             }
         }
 
+        // Unchecks all the boxes in lstbxSelectedLists.
         private void btnUncheckAllSelected_Click(object sender, EventArgs e)
         {
             // uncheck all boxes in clbSelectedLists

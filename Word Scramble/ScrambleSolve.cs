@@ -12,8 +12,10 @@ namespace Word_Scramble
 {
     public partial class ScrambleSolve : Form
     {
-        // The WordSet of selected words.
-        WordSet wsSelected = new WordSet();
+        // List made up of selected Lists
+        // what was I doing here? Change later
+        // 2026 note: Could replace 'list of lists' with a list of dictionaries. Will need to ajust how this is called elsewhere to match.
+        List<Word> lstSelectedLists = new List<Word>();
 
         Random random = new Random();
 
@@ -75,11 +77,14 @@ namespace Word_Scramble
 
         }
 
+        // Randomly picks a word from the word list to send it through the scrambler.
+        // TODO: Possibly add a check so if a word 'scrambles' into correct configuration it will scramble again.
         private void btnStartScramble_Click(object sender, EventArgs e)
         {
             try
             {
-                // This will randomly pick a word from the word list then send it through the scrambler.
+                String strScrambledWord = "";
+                int intWordListLength = 0;
 
                 int intListCount = 0;
                 int intRandomIndex = 0;
@@ -138,6 +143,7 @@ namespace Word_Scramble
             }
         }
 
+        // Checks if the player's guess is correct.
         private void btnCheck_Click(object sender, EventArgs e)
         {
             try
@@ -162,98 +168,15 @@ namespace Word_Scramble
             }
         }
 
-        private void btnGetHint_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (intHintsRemaining > 0)
-                {
-                    switch (intHintsUsed)
-                    {
-                        case 0:
-                            txtHint1.Text = wordOriginal.lstHints[intHintsUsed];
-                            intHintsUsed++;
-                            intHintsRemaining--;
-                            lblRemainingHints.Text = intHintsRemaining.ToString();
-                            break;
-                        case 1:
-                            txtHint2.Text = wordOriginal.lstHints[intHintsUsed];
-                            intHintsUsed++;
-                            intHintsRemaining--;
-                            lblRemainingHints.Text = intHintsRemaining.ToString();
-                            break;
-                        case 2:
-                            txtHint3.Text = wordOriginal.lstHints[intHintsUsed];
-                            intHintsUsed++;
-                            intHintsRemaining--;
-                            lblRemainingHints.Text = intHintsRemaining.ToString();
-                            break;
-                        case 3:
-                            intHintsRemaining = 0;
-                            lblRemainingHints.Text = intHintsRemaining.ToString();
-                            MessageBox.Show("No other hints exist for this Word.", "Error", MessageBoxButtons.OK);
-                            break;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No other hints exist for this Word.", "Error", MessageBoxButtons.OK);
-                    btnGetHint.Enabled = false;
-                }
-            }
-            catch (Exception es)
-            {
-                MessageBox.Show(es.Message);
-            }
-        }
 
-        private void btnMainMenuReturn_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private Word GetWord(ListItem<List<Word>> wordlist)
-        {
-            // pulls a single word out of a ListItem
-            Word wordSelected;
-            int intIndex = 0;
-
-            // Pick a random word from the List
-            intIndex = random.Next(0, wordlist.Value.Count);
-
-            wordSelected = wordlist.Value[intIndex];
-
-            // hint information
-            HintCheck(wordSelected);
-
-            return wordSelected;
-        }
-
-        private void HintCheck(Word wordOriginal)
-        {
-            if(wordOriginal.HintsExist() == true)
-            {
-                intHintCount = wordOriginal.HintCount();
-                lblHintCount.Text = intHintCount.ToString();
-                intHintsRemaining = intHintCount - intHintsUsed;
-                lblRemainingHints.Text = intHintsRemaining.ToString();
-            }
-            else
-            {
-                lblHintCount.Text = "0";
-                lblRemainingHints.Text = "0";
-                btnGetHint.Enabled = false;
-            }
-        }
-
+        // Takes in a word, uses Random class to shuffle the word, then passes the shuffled word out.
+        // Code comes from a comment by user nan on stackoverflow with minor edit.
+        // edits include: changing a var out for a char. 
         private String Scrambler(String strOriginalWord, int intWordLength)
         {
             String strScrambledWord = " ";
             try
             {
-                // Takes in a word, uses Random class to shuffle the word, then passes the shuffled word out.
-                // Code comes from a comment by user nan on stackoverflow with minor edit.
-                // edits include: changing a var out for a char. 
                 char chrSwap = ' ';
                 char[] chrScramble;
                 int intCharacterCount = intWordLength;
@@ -293,6 +216,33 @@ namespace Word_Scramble
 
             return strScrambledWord;
 
+        }
+
+        // TODO: Implement showing one of the hints.
+        private void btnGetHint_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message);
+            }
+        }
+
+        // Opens the List Editor form on button click.
+        private void btnListEditor_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Form fListEdit = new ListEditor();
+                fListEdit.ShowDialog();
+            }
+            catch (Exception es)
+            {
+                MessageBox.Show(es.Message);
+            }
         }
     }
 }
